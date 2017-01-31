@@ -1,0 +1,645 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">{{centerName | uppercase}} ({{IDN3 | uppercase}})</h1>
+</div>
+<div class="wrapper-md">
+    <!-- ng-controller="FormDemoCtrl" -->
+
+    <div class="panel panel-default">
+        <div class="panel-heading font-bold">
+            Patient Interview Input Form
+        </div>
+        <div class="panel-body">
+            <span class="text-default h5">
+     <p>Please complete the interview and save.<p><p>  Records with a Date of Service older than 3 months will not be counted.</p></span>
+            <span class="text-danger h5"><p>Please contact 877-602-0156 ext. 2 if you have any questions or need assistance.</p>
+    </span>
+        </div>
+    </div>
+
+
+    <div class="panel panel-danger">
+        <div class="panel-body">
+            <div class="row text-center">
+
+                <div class="col-sm-2 col-xs-2">
+                    <div class="text-muted text-xs">Identifier</div>
+                    <div class="h4 text-primary m-b-sm">{{patientinterview.PIN}}</div>
+                </div>
+                <div class="col-sm-2 col-xs-3">
+                    <div class="text-muted text-xs">Telephone</div>
+                    <div class="h4 font-bold text-primary m-b-sm" ng-if="patientinterview.PHONE!=='null'">{{patientinterview.PHONE}}</div>
+                </div>
+                <div class="col-sm-2 col-xs-2">
+                    <div class="text-muted text-xs">Gender</div>
+                    <div class="h4 text-primary m-b-sm">{{patientinterview.SEX}}</div>
+                </div>
+                <div class="col-sm-2 col-xs-2">
+                    <div class="text-muted text-xs">Age</div>
+                    <div class="h4 text-primary m-b-sm">{{patientinterview.AGE}}</div>
+                </div>
+                <div class="col-sm-2 col-xs-2">
+                    <div class="text-muted text-xs">Procedure</div>
+                    <div class="h4 text-primary m-b-sm">{{patientinterview.CPT}}</div>
+                </div>
+                <div class="col-sm-2 col-xs-3">
+                    <div class="text-muted text-xs">Procedure on</div>
+                    <div class="h4 text-primary m-b-sm">{{patientinterview.DOP}}</div>
+                </div>
+
+
+            </div>
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+            <span class="text-muted text-xs">Record entered on: </span><span class="text-primary text-xs">{{patientinterview.CREATEDON}}</span>
+            <span class="text-muted text-xs">  |  Created by: </span><span class="text-primary text-xs">{{patientinterview.CREATEDBY}}</span>
+            <span class="text-muted text-xs">  |  Center: </span><span class="text-primary text-xs">{{patientinterview.IDN3}}</span>
+        </div>
+    </div>
+
+    <form class="form-horizontal form-validation form-horizontal location ng-scope ng-valid-pattern ng-valid-required ng-dirty ng-valid-mask ng-valid ng-valid-parse " method="get" name="interview" ng-submit="interview.$valid && saveInterview(0)" novalidate id="print_Patntform">
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                1. AFTER LEAVING THE SURGERY CENTER
+                <span class="mantory" ng-show="interview.afterSurgery.$error.required && submit == true || interview.hadProblem.$error.required && submit == true || interview.ControlPain.$error.required && submit == true || interview.ScheduleAppointment.$error.required && submit == true || interview.yourself.$error.required && submit == true"> * Required </span>
+            </div>
+            <div class="panel-body">
+
+
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Did you know what to expect after the surgery?</label>
+                    <div class="col-sm-6">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="afterSurgery" value="Y" ng-model="patientinterview.PROB" required ><i></i> Yes
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="afterSurgery" value="N"  ng-model="patientinterview.PROB" required><i></i> No
+            </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Did you know who to call if you had a problem? </label>
+                    <div class="col-sm-6">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="hadProblem" value="Y" ng-model="patientinterview.WHOCALL" required><i></i> Yes
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="hadProblem" value="N" ng-model="patientinterview.WHOCALL" required><i></i> No
+            </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Did you know what medicine or other methods to use to control pain?</label>
+                    <div class="col-sm-6">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="ControlPain" value="Y" ng-model="patientinterview.MED" required><i></i> Yes
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="ControlPain" value="N"  ng-model="patientinterview.MED" required><i></i> No
+            </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Did you have an appointment to see your doctor or know when to schedule an appointment?</label>
+                    <div class="col-sm-6">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="ScheduleAppointment" value="Y" ng-model="patientinterview.APP" required><i></i> Yes
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="ScheduleAppointment" value="N" ng-model="patientinterview.APP" required><i></i> No
+            </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Did you feel that you had all information you needed to care for yourself once you were home? </label>
+                    <div class="col-sm-6">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="yourself" value="Y" ng-model="patientinterview.INF" required><i></i> Yes
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="yourself" value="N"  ng-model="patientinterview.INF" required><i></i> No
+            </label>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                2. AT ANY TIME AFTER LEAVING THE CENTER DID YOU HAVE ANY OF THE FOLLOWING THAT REQUIRED MEDICAL ATTENTION?
+            </div>
+            <div class="panel-body">
+                <span class="text-primary h5">If you had any of the following symptoms that required medical attention, please select all that applies.</span>
+
+                <div class="table-responsive">
+                    <table class="table table-striped b-t b-light">
+                        <thead>
+                            <tr>
+                                <th>Symptoms</th>
+                                <th>Visit Dr.'s Office?</th>
+                                <th>Recieve New RX?</th>
+                                <th>Visit ER?</th>
+                                <th>Get Admitted</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>Nausea</td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"  ng-model="patientinterview.NAUSEA1" > <i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.NAUSEA2" ><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.NAUSEA3"><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.NAUSEA4" ><i></i>
+                 </label>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Vomiting</td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.VOMIT1" ><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.VOMIT2"  ><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.VOMIT3" ><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.VOMIT4" ><i></i>
+                 </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Fever</td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.FEVER1"><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.FEVER2"><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.FEVER3"><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.FEVER4"><i></i>
+                 </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Difficulty urinating</td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.URINE1"><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.URINE2"><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.URINE3"><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.URINE4"><i></i>
+                 </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Bleeding from the site of the procedure</td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.BLEED1"><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.BLEED2"><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.BLEED3"><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="bleed1"   ng-model="patientinterview.BLEED4"><i></i>
+                 </label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Excessive redness/other signs of infection</td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="exred1"   ng-model="patientinterview.INFEC1"><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="exred1"   ng-model="patientinterview.INFEC2"><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="exred1"   ng-model="patientinterview.INFEC3"><i></i>
+                 </label>
+                                </td>
+                                <td><label class="checkbox-inline i-checks">
+                   <input type="checkbox" name="exred1"   ng-model="patientinterview.INFEC4"><i></i>
+                 </label>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                3. AFTER RETURNING HOME FROM THE SURGERY CENTER...
+                <span class="mantory" ng-show="interview.painsurgery.$error.required && submit == true || interview.paincntrl.$error.required && submit == true || instructionss.length=='0' && submit == true && patientinterview.PHOME=='1' || value.length=='0' && submit == true && patientinterview.PHOME=='1'"> * Required </span>
+            </div>
+            <div class="panel-body">
+
+
+                <div class="form-group">
+                    <label class="col-sm-6 control-label">Did you have any pain related to your surgery? </label>
+                    <div class="col-sm-6" ng-class="{'has-error': interview.painsurgery.$error.required && interview.painsurgery.$invalid && !interview.painsurgery.$dirty && submit }">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" ng-click="painsurgery()" name="painsurgery" value="1" ng-model="patientinterview.PHOME" required><i></i> Yes
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" ng-click="painsurgery()" name="painsurgery" value="0" ng-model="patientinterview.PHOME" required><i></i> No
+            </label>
+                    </div>
+                </div>
+
+                <!--<div class="form-group" >
+          <label class="col-sm-6 control-label">Did you have instructions for pain control? </label>
+          <div class="col-sm-6">
+            <label class="checkbox-inline i-checks" ng-if="patientinterview.PHOME=='1'" >
+              <input ng-disabled="patientinterview.PHOME=='0'" type="radio" name="paincntrl" ng-model="patientinterview.INSPAIN" value="1" required><i></i> Yes
+            </label>
+            <label class="checkbox-inline i-checks" ng-if="sugeryCenter=='0'">
+              <input ng-disabled="patientinterview.PHOME=='0'" type="radio" name="paincntrl" ng-model="patientinterview.INSPAIN" value="1" ><i></i> Yes
+            </label>
+            <label class="checkbox-inline i-checks" ng-if="patientinterview.PHOME=='1'">
+              <input ng-disabled="patientinterview.PHOME=='0'" type="radio" name="paincntrl" ng-model="patientinterview.INSPAIN" value="2" required>
+              <i></i> No
+            </label> 
+            <label class="checkbox-inline i-checks"  ng-if="sugeryCenter=='0'">
+              <input ng-disabled="patientinterview.PHOME=='0'" type="radio" name="paincntrl" ng-model="patientinterview.INSPAIN" value="2" >
+              <i></i> No
+            </label>             
+          </div>
+        </div>-->
+
+                <div ng-if="patientinterview.PHOME==1" class="form-group">
+                    <label class="col-sm-6 control-label">Did you receive instructions for: </label>
+                    <div class="col-sm-6">
+                        <label class="checkbox-inline i-checks">
+              <input ng-disabled="patientinterview.PHOME=='0'" type="checkbox" name="instructions" value="Y" ng-click="instructions(patientinterview.USEM)" ng-model="patientinterview.USEM" ><i></i> using medicine?
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input ng-disabled="patientinterview.PHOME=='0'" type="checkbox" name="instructions" value="Y" ng-click="instructions(patientinterview.INSCOM)" ng-model="patientinterview.INSCOM" ><i></i> other comfort measures?
+            </label>
+                    </div>
+                </div>
+
+                <div ng-if="patientinterview.PHOME==1" class="form-group">
+                    <label class="col-sm-6 control-label">Did you follow the instructions for:</label>
+                    <div class="col-sm-6">
+                        <label class="checkbox-inline i-checks">
+              <input ng-disabled="patientinterview.PHOME=='0'" type="checkbox" name="followinstructions" ng-click="checkBox(patientinterview.FOLM)" value="Y" ng-model="patientinterview.FOLM" ><i></i> using medicine?
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input ng-disabled="patientinterview.PHOME=='0'" type="checkbox" name="followinstructions" ng-click="checkBox(patientinterview.FOLCOM)" value="Y" ng-model="patientinterview.FOLCOM"  ><i></i> other comfort measures?
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input ng-disabled="patientinterview.PHOME=='0'" type="checkbox" name="followinstructionsNiether" ng-click="checkBox(patientinterview.FOLOTH)" value="Y" ng-model="patientinterview.FOLOTH" > <i></i> Neither
+            </label>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="panel panel-info" ng-hide="patientinterview.PHOME=='0' || patientinterview.FOLOTH=='1'">
+            <div class="panel-heading font-bold">
+                4. HOW WELL WOULD YOU SAY THE PAIN WAS RELIEVED?
+            </div>
+            <div class="panel-body">
+                <span class="text-primary h5">On a scale of 1 - 10, where 1 is Completely Relieved and 10 is Not Relieved.</span>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+
+
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">Pain Relived?</label>
+                    <div class="col-sm-8">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="painr" value="1" ng-model="patientinterview.RELIEF"><i></i> 1
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="painr" value="2" ng-model="patientinterview.RELIEF"><i></i> 2
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="painr" value="3" ng-model="patientinterview.RELIEF"><i></i> 3
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="painr" value="4" ng-model="patientinterview.RELIEF"><i></i> 4
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="painr" value="5" ng-model="patientinterview.RELIEF"><i></i> 5
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="painr" value="6" ng-model="patientinterview.RELIEF"><i></i> 6
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="painr" value="7" ng-model="patientinterview.RELIEF"><i></i> 7
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="painr" value="8" ng-model="patientinterview.RELIEF"><i></i> 8
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="painr" value="9" ng-model="patientinterview.RELIEF"><i></i> 9
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="painr" value="10" ng-model="patientinterview.RELIEF"><i></i> 10
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="painr" value="clear" ng-model="patientinterview.RELIEF"><i></i> Clear
+            </label>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                5. HOW WOULD YOU DESCRIBE THE QUALITY OF CARE YOU RECEIVED?
+                <span class="mantory" ng-show="submit == true && patientinterview.PHOME=='1'  && descripe5 =='1'"> </span>
+
+            </div>
+            <div class="panel-body">
+
+
+                <div class="form-group">
+
+                    <label class="col-sm-4 control-label">During the registration and admission process...</label>
+                    <div class="col-sm-8" ng-class="{'has-error': interview.regadmprcs.$error.required && interview.regadmprcs.$invalid && !interview.regadmprcs.$dirty && submit }">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="regadmprcs" value="Excellent" ng-click="qulityReceive()" ng-model="patientinterview.QREGADM" required><i></i> Excellent
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="regadmprcs" value="Good" ng-model="patientinterview.QREGADM" required><i></i> Good
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="regadmprcs" value="Fair" ng-model="patientinterview.QREGADM" required><i></i> Fair
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="regadmprcs" value="Poor" ng-model="patientinterview.QREGADM" required><i></i> Poor
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="regadmprcs" value="N/A" ng-model="patientinterview.QREGADM" required><i></i> N/A
+            </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">During the pre-op care...</label>
+                    <div class="col-sm-8" ng-class="{'has-error': interview.preop.$error.required && interview.preop.$invalid && !interview.preop.$dirty && submit}">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="preop" value="Excellent" ng-model="patientinterview.QPREADM " required ><i></i> Excellent
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="preop" value="Good" ng-model="patientinterview.QPREADM " required ><i></i> Good
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="preop" value="Fair" ng-model="patientinterview.QPREADM " required ><i></i> Fair
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="preop" value="Poor" ng-model="patientinterview.QPREADM " required ><i></i> Poor
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="preop" value="N/A" ng-model="patientinterview.QPREADM " required ><i></i> N/A
+            </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">During your recovery period in the center...</label>
+                    <div class="col-sm-8" ng-class="{'has-error': interview.period.$error.required && interview.period.$invalid && !personal.period.$dirty && submit}">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="period" value="Excellent" ng-model="patientinterview.QRECOV"  required><i></i> Excellent
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="period" value="Good" ng-model="patientinterview.QRECOV" required ><i></i> Good
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="period" value="Fair" ng-model="patientinterview.QRECOV"  required ><i></i> Fair
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="period" value="Poor" ng-model="patientinterview.QRECOV"  required ><i></i> Poor
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="period" value="N/A" ng-model="patientinterview.QRECOV"  required ><i></i> N/A
+            </label>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+               <!-- 6. INSTITUTION SPECIFIC QUESTIONS-->
+                6. OPTIONAL DATA FOR YOUR CENTER.
+            </div>
+            <div class="panel-body">
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">A</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-model="patientinterview.PAT_ISV_A">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">B</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-model="patientinterview.PAT_ISV_B">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">C</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-model="patientinterview.PAT_ISV_C">
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                7. Is there anything you would like to tell me about the surgery or your recovery period?
+            </div>
+            <div class="panel-body">
+
+
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <input type="text" class="form-control" placeholder="" ng-model="patientinterview.INT_COMMEN " maxlength="150">
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                8. WHO WAS INTERVIEWED?
+                <span class="mantory" ng-show="interview.Inretviewed.$error.required && submit == true  ">  </span>
+            </div>
+            <div class="panel-body">
+
+
+                <div class="form-group">
+                    <label class="col-sm-4 control-label text-danger">Who is interviewed?</label>
+                    <div class="col-sm-8" ng-class="{'has-error': interview.Inretviewed.$error.required && submit == true}">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="Inretviewed" value="Patient" ng-model="patientinterview.WHOWAS" required><i></i> Patient
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="Inretviewed" value="Parent" ng-model="patientinterview.WHOWAS" required><i></i> Parent
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="Inretviewed" value="Spouse" ng-model="patientinterview.WHOWAS" required ><i></i> Spouse
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="Inretviewed" value="AdultChild" ng-model="patientinterview.WHOWAS" required><i></i> Adult Child
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="Inretviewed" value="Other" ng-model="patientinterview.WHOWAS" required><i></i> Other
+            </label>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                9. INTERVIEWER NAME AND DATE
+            </div>
+            <div class="panel-body">
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Interviewer</label>
+                    <div class="col-sm-4">
+                        <label ng-class="{'has-error': interview.interviewer.$error.required && interview.interviewer.$invalid && !interview.interviewer_name.$dirty && submit}"> 
+            <input type="text" name="interviewer" class="form-control" ng-model="patientinterview.interviewer_name"  >
+            </label>
+                        <span class="help-block m-b-none">Name</span>
+                    </div>
+                    <div class="col-sm-6">
+
+                        <div class="test" ng-controller="DatepickerDemoCtrl">
+                            <div class="input-group w-md" ng-class="{'has-error': interview.proceduredate.$error.required && interview.proceduredate.$invalid && !interview.proceduredate.$dirty && submit}">
+                                <input type="text" name="proceduredate" class="form-control" datepicker-popup="{{format}}" ng-model="patientinterview.interview_date" is-open="opened" datepicker-options="dateOptions" close-text="Close" />
+                                <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+
+                            </div>
+
+                        </div>
+                        <span class="help-block m-b-none">DATE</span>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="panel panel-success">
+            <div class="panel-body">
+
+                <span class="text-primary h5">Once ALL required fields are completed click the SAVE button to submit this form.</span>
+
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <div class="col-sm-6 col-sm-offset-2">
+                        <!--<button class="btn btn-primary" ng-click="submitForm()">Save Interview</button>-->
+
+                        <a type="submit" ng-click="submitForm()" class="btn btn-primary" >Save Interview </a>
+                        <a class="btn btn-default" ng-click="draft()">Save as Draft</a>
+
+                        <a ng-click="cancel()" class="btn btn-default">Cancel</a>
+                        
+                        
+                        <span> <i class="btn fa fa-refresh fa-spin" ng-if ="loderStatus" style="font-size:24px"></i> </span>
+                    </div>
+                </div>
+                <div class="col-sm-5 col-sm-offset-2" ng-if="errortype">
+
+                    <alert type="{{alrttype}}" close="closeAlert()">{{msg}}</alert>
+
+                </div>
+
+                <div class="col-sm-5 col-sm-offset-2" ng-if="submit">
+
+                    <alert type="danger" close="closeAlert()" ng-if="ErrorFileds.length>0" ng-click="submit=false">Validation Error, Please fill all required field !!!
+
+                        <div class="text-nowrapNew" ng-repeat="x in ErrorFileds">{{$index+1}}.&nbsp;{{x}}</div>
+                    </alert>
+
+                    <alert type="danger" close="closeAlert()" ng-if="submiterrorSubmit>0">ERROR: Missing the following required fields.
+                        
+                        <div class="text-nowrapNew" ng-repeat="errors in ErrorFiledssubmit">{{errors}}</div>
+                    </alert>
+                    <span ng-show="anyDirtyAndInvalid();"></span>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    window.scrollTo(0, 0);
+</script>

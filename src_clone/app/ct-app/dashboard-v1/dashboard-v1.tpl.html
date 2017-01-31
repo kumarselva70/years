@@ -1,0 +1,246 @@
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-init="
+    app.settings.asideFolded = false; 
+    app.settings.asideDock = false;
+  ">
+  <!-- main -->
+  <div class="col">
+    <!-- main header -->
+    <div class="bg-light lter b-b wrapper-md">
+      <div class="row">
+        <div class="col-sm-10 col-xs-12">
+          <h1 ng-if="userDetals.is_super_user==0 || centecame>0" class="m-n font-thin h3 text-black">{{CenterName | uppercase}}
+            </h1>
+            <h1 ng-if="userDetals.is_super_user==1 && centecame<=0" class="m-n font-thin h3 text-black">ALL
+            </h1>
+          <small ng-if="userDetals.is_super_user==0 || centecame>0" class="text-muted">Activity for <span ng-if="userDetals.is_super_user==0">your</span> <span ng-if="userDetals.is_super_user==1">{{cnter | uppercase}}</span> center</small>
+          <small  ng-if="userDetals.is_super_user==1 && centecame<=0" class="text-muted">Activities of all the centers</small>
+        </div>
+  
+      </div>
+    </div>
+
+    <!-- / main header -->
+    <div class="wrapper-md"> <!-- ng-controller="FlotChartDemoCtrl" -->
+
+
+    <div class="m-b-sm">
+      <div class="btn-group btn-group-justified">
+          <a href class="btn btn-info inactiveclr active " id="thisMOnth1" ng-click="thisMOnth()">This Month</a>
+          <a href class="btn btn-info inactiveclr" id="lastmonth1" ng-click="lastmonth()">Last Month</a>
+          <a href class="btn btn-info inactiveclr active " id="lastQuarter1" ng-click="lastQuarter()">Last Quarter</a>
+          <a href class="btn btn-info inactiveclr" id="lastsixMonth1" ng-click="lastsixMonth()">Last 6 months</a>
+          <a href class="btn btn-info inactiveclr active " id="lastYear1" ng-click="lastYear()">Last Year</a>
+      </div>
+    </div>
+    <div class="col-sm-12 m-b-xs">
+      Selected Date-Range : <b >{{monthduration}}</b>
+    </div>
+   
+      <!-- stats -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row row-sm text-center">
+            <div restrict access="SuperAdmin" ng-if="centecame<=0">
+
+            <div class="col-xs-4">
+              <div class="panel padder-v item" >
+                <div class="h1 text-primary font-thin h1">{{centersCount | number}}</div>
+                <span class="text-muted text-xs">Total Centers</span>
+                <div class="top text-right w-full">
+                  <!--<i class="fa fa-caret-down text-warning m-r-sm"></i>-->
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xs-4">
+              <a href class="block panel padder-v item">
+                <span class="text-success font-thin h1 block">{{medRecordwithdrans | number}}</span>
+                <span class="text-muted text-xs">with Transactions</span>
+              </a>
+            </div>
+            
+            <div class="col-xs-4">
+              <a href class="block panel padder-v item">
+                <span class="text-info font-thin h1 block" >{{medRecordwithdrans / centersCount * 100 | number : 2}}%</span>
+                <span class="text-muted text-xs">% Completed</span>
+              </a>
+            </div>  
+
+
+            <div class="col-xs-4">
+              <div class="panel padder-v item">
+                <div class="h1 text-primary font-thin h1" >{{medRecordStatus.total + medRecordStatus.draft  | number}} </div>
+                
+                <span class="text-muted text-xs">Total Patients</span>
+                <div class="top text-right w-full">
+                  <!--<i class="fa fa-caret-down text-warning m-r-sm"></i>-->
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-4">
+              <a href class="block panel padder-v item">
+                <span class="text-primary font-thin h1 block">{{medRecordStatus.total | number}}</span>
+                <span class="text-muted text-xs">with Transactions</span>
+              </a>
+            </div>
+            <div class="col-xs-4">
+              <a href class="block panel padder-v item">
+                <span class="text-info font-thin h1 block" >{{totalpantPersentge | number : 2}}%</span>
+                <span class="text-muted text-xs">% Completed</span>
+              </a>
+            </div>  
+          </div>
+
+            <div class="col-xs-3">
+              <a href class="block panel padder-v item">
+                <span class="text-success-dk font-thin h1 block">{{medRecordStatus.total | number}}</span><span class="text-success-dk font-thin h1 block" ng-if="medRecordStatus.length<2">0</span>
+                <span class="text-muted text-xs">Medical Recs</span>
+              </a>
+            </div>
+            <div class="col-xs-3">
+              <a href class="block panel padder-v item">
+                <span class="text-danger-dk font-thin h1 block" >{{medRecordStatus.draft | number}}</span>
+                <span class="text-muted text-xs">Medical Recs Drafts</span>
+              </a>
+            </div>
+            <div class="col-xs-3">
+              <a href class="block panel padder-v item">
+                <span class="text-success-dk font-thin h1 block">{{patintStatus.total | number}}</span>
+                <span class="text-muted text-xs">Patient Interviews</span>
+              </a>
+            </div>
+            <div class="col-xs-3">
+              <div class="panel padder-v item">
+                <div class="text-danger-dk font-thin h1">{{patintStatus.draft | number}}</div>
+                <span class="text-muted text-xs">Patient Interviews Drafts</span>
+              </div>
+            </div>
+
+            
+          </div>
+           
+        </div>
+      </div>
+      <div class="row">
+      <div class="col-md-12">
+          <div class="row row-sm text-center" ng-if="userDetals.is_super_user<=0 || centecame>0" >
+             <div class="col-xs-3" >
+               <a href class="block panel padder-v item">
+                <span class="text-info font-thin h1 block" >{{ patnInteview | number : 2}}</span>
+                <span class="text-muted text-xs">% Completed</span>
+              </a>
+            </div>
+             <div class="col-xs-3" >
+               <a href class="block panel padder-v item">
+                <span class="text-info font-thin h3 block" >{{lastBOP }}</span>
+                <span class="text-muted text-xs">Date of Last DOP</span>
+              </a>
+            </div>
+             <div class="col-xs-3" >
+               <a href class="block panel padder-v item">
+                <span class="text-info font-thin h4 block" >{{lastcretedON}}</span>
+
+                <span class="text-muted text-xs">Date of Last Created On</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- / stats -->
+
+    </div>
+  </div>
+  <!-- / main -->
+
+</div>
+ <div class="wrapper-md" ng-if="userDetals.is_super_user==0"> 
+    <div class="m-b-sm">
+
+      <div class="r bg-light dker item hbox no-border ng-scope">
+               <div class="col dk panel-heading r-r form-group">
+                  <div class="col-sm-12"><label class="col-sm-3 text-right">TO GET STARTED</label><label class="col-sm-3"><a ui-sref="ctApp.elements" class="btn btn-sm btn-success btn-addon"><i class="fa fa-plus"></i>Add Patient</a></label></div>
+                  
+                </div>
+              </div>
+              <div class="form-group">
+              <div class="col-sm-12"></div>
+              </div><!--padder-v-->
+              <div class="r bg-light dker item hbox no-border ng-scope">
+                
+                <div class="col dk panel-heading  r-r form-group">
+                  <div class="col-sm-12"><label class="col-sm-3 text-right">TO SEE A LIST OF YOUR PATIENTS</label><label class="col-sm-3"><a ui-sref="ctApp.tablestatic" class="btn btn-sm btn-success btn-addon">Patient List</a></label></div>
+                  
+                </div>
+              </div>
+     </div>
+   </div>
+
+
+
+<div class="wrapper-md" restrict access="SuperAdmin" >
+ <div class="panel panel-default" ng-if="centecame<=0">
+   <div class="panel-heading">
+     TOP 10 CENTERS
+   </div>
+   <div class="wrapper-sm table-responsive" ng-if="TopTenCenters.length>0"> 
+     <table class="table table-striped b-t b-light"  datatable dt-options="dtOptions">
+       <thead>
+         <tr>
+           <!--<th >CODE</th>-->
+           <th>Center Name</th>
+           <th>Total Med-rec</th>
+           <th >Med-rec Comp.</th>
+           <th >Total Interview</th>
+           <th >Interviews Comp.</th>
+           <th >Created On</th>
+           
+         </tr>
+       </thead>
+       <tbody>
+         <tr  ng-repeat="centers in TopTenCentersAsc | limitTo:10">
+          <!--<td>{{centers.center}}</td>-->
+          <td>{{centers.centerName}}</td>
+          <td>{{centers.medTotalCount}}</td>
+          <td>{{centers.medcomp}}</td>
+          <td>{{centers.patntTotalCount}}</td>
+          <td >{{centers.patntcomp}}</td>
+          <td >{{centers.createdOn}}</td>
+          
+           
+         </tr>
+       </tbody>
+     </table>
+   </div>
+ </div>
+</div>
+
+<!--<div class="wrapper-md">
+ <div class="panel panel-default">
+   <div class="panel-heading">
+     TOP 10 PROCEDURES
+   </div>
+   <div class="wrapper-sm table-responsive" ng-if="TopTenProcedures.length>0"> 
+     <table class="table table-striped b-t b-light" datatable dt-options="dtOptions">
+       <thead>
+         <tr>
+           <th data-breakpoints="xs">Procedure</th>
+           <th>Total Med-rec</th>
+           <th data-breakpoints="xs">Med-rec Comp.</th>-->
+           <!--<th data-breakpoints="xs sm">Total Interview</th>
+           <th data-breakpoints="xs sm md">Interviews Comp.</th>-->
+        <!-- </tr>
+       </thead>
+       <tbody>
+         <tr ng-repeat="procedures in TopTenProcedures | limitTo:10">
+          <td>{{procedures.proc}}</td>
+          <td>{{procedures.TotalMed}}</td>
+          <td>{{procedures.medComp}}</td>-->
+          <!--<td>{{procedures.patntTotal}}</td>
+          <td>{{procedures.patntComp}}</td>-->
+           
+        <!-- </tr>
+       </tbody>
+     </table>
+   </div>
+ </div>
+</div>-->

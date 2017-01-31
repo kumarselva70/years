@@ -1,0 +1,180 @@
+<div class="wrapper-md">
+
+	<form class="form-horizontal form-validation form-horizontal location ng-scope ng-valid-pattern ng-valid-required ng-dirty ng-valid-mask ng-valid ng-valid-parse " method="get" name ="addcenter" ng-submit=" addcenter.$valid && savecenter()" novalidate>
+<tabset class="tab-container">
+            <tab heading="Center Details" active="centerSteps.Center" select="centerSteps.percent=50">
+  
+    		<div class="form-group">
+          <label class="col-sm-2 control-label text-danger">Name</label>
+          <div class="col-sm-10" ng-class="{'has-error': addcenter.IDNNAME.$error.required && addcenter.IDNNAME.$invalid && !addcenter.IDNNAME.$dirty && submit}" >
+            <input type="text"  name="IDNNAME" class="form-control" placeholder="Name" ng-model="addCenter.IDNNAME" required >
+<!-- ng-blur ="checkuniqueue('IDNNAME',addCenter.IDNNAME,'idndetails','1')" -->
+            <span class="spanerror" ng-show="uniqueueError=='1'">Name Aleready Exit</span>
+            
+            
+          </div>
+        </div>
+<div class="line line-dashed b-b line-lg pull-in"></div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label text-danger">Usercode</label>
+          <div class="col-sm-10" ng-class="{'has-error': addcenter.IDN3.$error.required && addcenter.IDN3.$invalid && !addcenter.IDN3.$dirty && submit || uniqueueErrorhos=='2' && addcenter.IDN3.$pristine}" >
+            <input type="text"  id="2bor" name="IDN3" class="form-control" placeholder="Hospital" ng-model="addCenter.IDN3" required maxlength="3" ng-pattern="/^[A-Za-z]{1,3}$/"  ng-blur ="checkuniqueue('IDN3',addCenter.IDN3,'idndetails','2')">
+<!-- ng-blur ="checkpinNumber()" -->
+            <!--<span class="spanerror" ng-show="uniqueueError=='2'">IDN3 Value Aleready Exit</span>-->
+            
+            
+          </div>
+        </div>
+<div class="line line-dashed b-b line-lg pull-in"></div>
+
+        <div class="form-group" >
+          <label class="col-sm-2 control-label text-danger">Username</label>
+          <div class="col-sm-10" ng-class="{'has-error': addcenter.username.$error.required && addcenter.username.$invalid && !addcenter.username.$dirty && submit || uniqueueErroruser=='3'}" >
+            
+            <input type="text" id="3bor" name="username" class="form-control" placeholder="Enter an username" ng-model="addCenter.username" required ng-blur ="checkuniqueue('username',addCenter.username,'users','3')" >
+
+           <!-- <input ng-if="editUser=='1'" type="text"  name="username" class="form-control" placeholder="Username" ng-model="addCenter.username" readonly >-->
+<!-- ng-blur ="checkuniqueue('username',addCenter.username,'users','3')" -->
+            <!--<span class="spanerror" ng-show="uniqueueError=='3'">User Name Aleready Exit</span>-->
+            
+            
+          </div>
+        </div>
+<!--ng-if="editUser=='0'" -->
+
+        <div class="form-group" >
+          <label class="col-sm-2 control-label text-danger">Password</label>
+          <div class="col-sm-10" ng-class="{'has-error': addcenter.password.$error.required && addcenter.password.$invalid && !addcenter.password.$dirty && submit}" >
+            <input type="text"  name="password" class="form-control" placeholder="Password" ng-model="addCenter.pwd" required>
+
+            
+          </div>
+        </div>
+
+        <div class="line line-dashed b-b line-lg pull-in"  ></div>
+     <div class="form-group"  >
+          <label class="col-sm-2 control-label text-danger">File Format</label>
+         <div class="col-sm-10" ng-class="{'has-error': addcenter.file_format.length<=0 && submit}">
+                        <ui-select ng-model="addCenter.file_format" theme="bootstrap">
+                            <ui-select-match placeholder="Select File Format">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices  repeat="item in filesformat | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+        </div>
+
+  
+<div class="line line-dashed b-b line-lg pull-in"  ></div>
+     <div class="form-group"  >
+          <label class="col-sm-2 control-label text-danger">Superuser</label>
+          <div class="col-sm-10" ng-class="{'has-error': addcenter.super.$error.required && addcenter.super.$invalid && !addcenter.super.$dirty && submit}"  >
+            <label class="checkbox-inline i-checks">
+              <input type="radio" name="super" value="1" ng-model="addCenter.is_super_user" required><i></i> Yes
+            </label>
+            <label class="checkbox-inline i-checks">
+              <input type="radio" name="super" value="0" ng-model="addCenter.is_super_user" required> <i></i> No
+            </label>
+            
+          </div>
+        </div>
+
+        <div class="line line-dashed b-b line-lg pull-in"  ></div>
+     <div class="form-group"  >
+          <label class="col-sm-2 control-label text-danger">Status</label>
+          <div class="col-sm-10" ng-class="{'has-error': addcenter.status.$error.required && addcenter.status.$invalid && !addcenter.status.$dirty && submit}">
+            <label class="checkbox-inline i-checks">
+              <input type="radio" name="status" value="1" ng-model="addCenter.status" required ><i></i> Active
+            </label>
+            <label class="checkbox-inline i-checks">
+              <input type="radio" name="status" value="0" ng-model="addCenter.status" required > <i></i> Inactive
+            </label>
+            
+          </div>
+        </div>
+
+         <div class="line line-dashed b-b line-lg pull-in"  ></div>
+     <div class="form-group"  >
+          <label class="col-sm-2 control-label">Email</label>
+          <div class="col-sm-10" ><!--| limitTo:5-->
+            <div class="row m-b" ng-repeat="email in addCenter.email  track by $index ">
+              <div class="col-sm-4 padding-r-none">
+             <input type="text" id="row{{$index}}" name="emails" class="form-control" placeholder="Enter an Email"  ng-model="addCenter.email[$index]"  ng-pattern = '/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i'>
+           </div>
+             <div class="col-sm-2">
+                                        <span ><a href=""  class="btn btn-rounded btn-sm btn-icon btn-primary" ng-click="removeemail($index)"><i class="fa fa-trash-o"></i></a></span>
+                                        <span ><a href="" ng-show="addCenter.email.length-1==$index" class="btn btn-rounded btn-sm btn-icon btn-primary" ng-click="addemail($index)"><i class="fa fa-plus"></i></a></span>
+                                    </div>
+
+            </div>
+
+                
+          </div>
+        </div>
+
+         <div class="line line-dashed b-b line-lg pull-in"></div>
+        <div class="form-group"> 
+          <div class="col-sm-3 col-sm-offset-2">
+            <a type="submit" class="btn btn-default" ui-sref="ctApp.ui_grid">Cancel</a><!-- ng-click="submit=true"-->
+            <button type="submit" class="btn btn-primary"  ng-disabled="disableButton" ng-click="submit=true" >{{addupdatebtn}}</button>
+           
+          </div>
+          <div class="col-sm-4 col-sm-offset-0" ng-if ="errortype">
+              
+              <alert  type="{{alrttype}}" close="closeAlert()">{{msg}}</alert>
+              
+          </div>
+       </div>
+
+         </tab>
+         
+        <tab heading="Set CPT Favorites" disabled="general.$invalid" active="centerSteps.cpt" select="centerSteps.percent=75">
+            <div class="form-group" >
+        <div class="row">
+         <div class="col-md-1"></div>
+        <div class="col-md-4">
+        Sort By : <u  ng-click="sortByLefttSideProc('PROCEDURE_GROUP')">Proc Group</u>
+        &nbsp;<u  ng-click="sortByLefttSideProc('value')">Code</u>
+        </div>
+        <div class="col-md-4 paddingleft">
+        Sort By : <u   ng-click="sortByRightSideProc('PROCEDURE_GROUP')">Proc Group</u>
+        &nbsp;<u   ng-click="sortByRightSideProc('value')">Code</u>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-md-12"></div>
+        </div>
+        <div class="row">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+          <picklist name="pktest1" size="20" data-pick-options="v.name for v in toptions | unique: 'name'" data-picklist="toptions" data-pick-model="tselected ">
+          </picklist>
+
+
+        </div>
+      
+     </div>
+
+      </div>
+
+        <div class="form-group"> 
+          <div class="col-sm-3 col-sm-offset-2">
+          <a type="submit" class="btn btn-default" ui-sref="ctApp.ui_grid">Cancel</a>
+            
+            <button type="submit" class="btn btn-primary"  ng-disabled="addcenter.$invalid || disableButton" ng-click="submit=true" >{{addupdatebtn}}</button>
+           
+          </div>
+          <div class="col-sm-4 col-sm-offset-0" ng-if ="errortype">
+              
+              <alert  type="{{alrttype}}" close="closeAlert()">{{msg}}</alert>
+              
+          </div>
+       </div>
+         </tab>
+         </tabset>   
+    
+     </form>
+   
+ </div>
+ <!-- <a type="submit" class="btn btn-default" ng-click="previous()">Pre</a>ng-click="submit=true"-->

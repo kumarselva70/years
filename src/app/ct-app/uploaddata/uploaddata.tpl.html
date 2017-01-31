@@ -1,0 +1,169 @@
+<div class="hbox hbox-auto-xs hbox-auto-sm"   nv-file-drop="" uploader="uploader" filters="queueLimit, customFilter">
+  <div class="col w-lg bg-light b-r bg-auto">
+    <div class="wrapper-md dker b-b">
+      <h3 class="m-n font-thin">Upload Data</h3>
+     
+    </div>
+    <div class="wrapper-md">      
+      <div ng-show="uploader.isHTML5" class="m-b-md">
+       <p>You can load one or more files to upload and process. After you have uploadted the files(s), clock on Process to load the medical records.</p>
+          <!-- 3. nv-file-over uploader="link" over-class="className" -->
+          <!--<div class="b-a b-2x b-dashed wrapper-lg bg-white text-center m-b" nv-file-over="" over-class="b-info" uploader="uploader">
+              Base drop zone
+          </div>-->
+
+          <!-- Example: nv-file-drop="" uploader="{Object}" options="{Object}" filters="{String}" -->
+          <!--<div nv-file-drop="" uploader="uploader" options="{ url: '/foo' }">
+              <div nv-file-over="" uploader="uploader" over-class="b-danger" class="b-a b-2x b-dashed wrapper-lg lter text-center">
+                  Another drop zone with its own settings
+              </div>
+          </div>-->
+      </div>
+<!-- ng-controller="FileUploadCtrl" -->
+      <!-- Example: nv-file-select="" uploader="{Object}" options="{Object}" filters="{String}" -->
+      <!--<p>Multiple</p>
+      <input type="file" nv-file-select="" uploader="uploader" multiple  />-->
+
+
+
+      <!--<p class="m-t-md">Choose the file to load</p>-->
+      <div class="form-group">
+      <div class="row col-sm-offset-1">
+      <span  class="btn btn-addon btn-success col-sm-7 upload-btn"">
+          <i class="fa fa-arrow-circle-o-up"></i> 
+          <label for="upload-1" ng-disabled="diasbleUpload">CHOOSE FILE</label>
+          <input type="file" nv-file-select=""  class="input_file" id="{{typefileId}}" uploader="uploader" accept=".csv" ngf-max-size="1MB" ng-model="singleFile" />
+        
+        </span>
+        </div>
+        </div>
+
+   
+
+        
+        
+ <div class="form-group">
+          <div class="row">
+          </div>
+          </div>
+              <div class="form-group">
+          <div class="row">
+          <div  class="col-sm-12">
+         NOTE: Once the records are processed they will be in DRAFT status. Go to your Patient List page and complete the medical records. 
+              </div>
+              </div>
+              </div>
+        
+      </div>
+    
+
+  </div>
+  <div class="col">
+    <div class="wrapper-md bg-light dk b-b">
+     <!-- <span class="pull-right m-t-xs">Queue length: <b class="badge bg-info"> {{ uploader.queue.length }}</b></span>-->
+      <h3 class="m-n font-thin"></h3>      
+    </div>
+    <div class="wrapper-md">
+      <table class="table bg-white-only b-a">
+          <thead>
+              <tr>
+                  <th width="50%">Name</th>
+                  <th ng-show="uploader.isHTML5">Size</th>
+                  <th ng-show="uploader.isHTML5">Progress</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr ng-repeat="item in uploader.queue " ><!-- ng-show="$index==uploader.queue.length-1"-->
+                  <td><strong>{{ item.file.name }}</strong></td>
+                  <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                  <td ng-show="uploader.isHTML5">
+                      <div class="progress progress-sm m-b-none m-t-xs">
+                          <div class="progress-bar bg-info" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                      </div>
+                  </td>
+                  <td class="text-center">
+                      <span ng-show="item.isSuccess" class="text-success"><i class="glyphicon glyphicon-ok"></i></span>
+                      <span ng-show="item.isCancel" class="text-warning"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                      <span ng-show="item.isError" class="text-danger"><i class="glyphicon glyphicon-remove"></i></span>
+                  </td>
+                  <td nowrap><!--item.upload()-->
+                      <!-- <button type="button" class="btn btn-default btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess || item.file.type!='text/csv'">
+                          Upload
+                      </button>
+                     <button type="button" class="btn btn-default btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                          Cancel
+                      </button>-->
+                      <a ng-click="removeItem(item)"><!--item.remove()-->
+                          Remove</a>
+                      
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      <div>
+        <div>
+       
+
+          <p>Queue progress:</p>
+          <div class="progress bg-light dker" style="">
+              <div class="progress-bar progress-bar-striped bg-info" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+          </div>
+        </div><!-- uploader.uploadAll()-->
+
+        
+       
+         <div class="form-group">
+        <div class="row">
+        <div  class="col-sm-12">
+
+          <span class=""> ADVANTX format</span>&nbsp; <span class="active"><u>click to change</u></span>
+          </div>
+          </div>
+          </div>
+          <div class="form-group">
+          <div class="row">
+          <div  class="col-sm-12">
+          <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model="headerow" >
+                <i></i>
+                File has header row
+              </label>
+              </div>
+              </div>
+
+                     <div class="row" ng-show="favhide">
+                    <div  class="col-sm-12" >
+                    <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model="cptfavrow" >
+                <i></i>
+               Only Load CPT Favorites
+              </label>
+              </div>
+              </div>
+              </div>
+      <button type="button" class="btn btn-addon btn-success" ng-click="uploadFun()" ng-disabled="!uploader.getNotUploadedItems().length || diasbleUpload">
+          <i class="fa fa-arrow-circle-o-up"></i> UPLOAD
+        </button>
+        <button type="button" ng-disabled="diasbleUpload" class="btn btn-addon btn-warning" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+          <i class="fa fa-ban"></i> Cancel all
+        </button>
+        <button type="button" class="btn btn-addon btn-danger" ng-click="removeAll()" ng-disabled="!uploader.queue.length || diasbleUpload">
+            <i class="fa fa-trash-o"></i> Remove all<!-- uploader.clearQueue()-->
+        </button>
+        <div class="form-group"></div>
+        <!-- close="closeAlert()"-->
+         <div class="col-sm-8 col-sm-offset-2" ng-if="fileerror>0">
+                    <alert type="{{type}}" >{{msg}}
+                        <div ng-repeat="x in rowcount track by $index">{{x}}</div>
+                    </alert>
+
+                </div>
+
+
+        
+      </div>
+    </div>
+  </div>
+</div>

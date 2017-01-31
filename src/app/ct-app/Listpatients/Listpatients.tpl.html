@@ -1,0 +1,225 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">{{centername | uppercase}} ({{IDNCode | uppercase}})</h1>
+</div>
+<div class="wrapper-md">
+
+<div class="panel panel-default">
+    <div class="panel-body">
+    <span class="text-default h5">
+      Add a new patient/interview or edit a medical record or patient interview.<br/></span>
+    <span class="text-danger h5">if you have any questions or need assistance please contact 877-602-0156 ext. 2 </span>
+    </div>
+
+    <div class="line line-dashed b-b line-lg pull-in"></div>
+
+        <div class="row wrapper">
+      <div class="col-sm-6 m-b-xs">
+        <a ui-sref="ctApp.elements" class="btn m-b-xs btn-sm btn-success btn-addon"><i class="fa fa-plus"></i>Add Patient</a>
+      </div>
+      
+    </div>
+</div>
+
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      SEARCH & FILTER OPTIONS
+    </div>
+
+    <div class="row wrapper minmaxwrapper">
+      <!--<div class="col-sm-12 m-b-xs">
+      <div class="btn-group btn-group-justified">
+          <a href class="btn btn-info" ng-click="thisMOnth()">This Month</a>
+          <a href class="btn btn-primary" ng-click="lastmonth()">Last Month</a>
+          <a href class="btn btn-info" ng-click="lastQuarter()">Last Quarter</a>
+          <a href class="btn btn-primary" ng-click="lastsixMonth()">Last 6 months</a>
+          <a href class="btn btn-info" ng-click="lastYear()">Last Year</a>
+      </div>
+    </div>
+    <div class="col-sm-12 m-b-xs">
+      Selected Date-Range : <b>{{monthduration}}</b>
+    </div>-->
+      <div class="form-group">
+           <div class="col-sm-3 minmaxwidth">      
+          <ui-select ng-model="patientFilters.procstatus" theme="bootstrap" id="procdate">
+            <ui-select-match placeholder="Select">{{$select.selected}}</ui-select-match>
+            <ui-select-choices  repeat="item in selcstatus | filter: $select.search">
+              <div ng-bind-html="item | highlight: $select.search"></div>
+              
+            </ui-select-choices>
+          </ui-select>
+                
+
+            </div>
+
+             <div class="col-sm-3 minmaxwidth">      
+          <ui-select ng-model="patientFilters.procdate" theme="bootstrap" id="procdate">
+            <ui-select-match placeholder="Select">{{$select.selected.value}}</ui-select-match>
+            <ui-select-choices  repeat="item in selcfiled | filter: $select.search">
+              <div ng-bind-html="item.value | highlight: $select.search"></div>
+              
+            </ui-select-choices>
+          </ui-select>
+                
+
+            </div>
+            <div class="col-sm-3 minmaxwidth">
+
+                <div ng-controller="DatepickerDemoCtrl">
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Start Date" readonly datepicker-popup="{{format}}" ng-model="patientFilters.startDate" is-open="opened" datepicker-options="dateOptions" close-text="Close"  min-date="mindate" max-date="maxdate"/>
+                        <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+
+                </div>
+
+            </div>
+               
+            <div class="col-sm-3 minmaxwidth">
+
+                <div ng-controller="DatepickerDemoCtrl">
+
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="End Date" readonly datepicker-popup="{{format}}" ng-model="patientFilters.endDate" is-open="opened" datepicker-options="dateOptions" close-text="Close" />
+                        <span class="input-group-btn">
+                      <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                    </div>
+
+                </div>
+              </div>
+
+           
+            
+        </div>
+        </div>
+        <div class="row wrapper minmaxwrapper">
+      <div class="form-group">
+        
+         <div class="col-sm-3 minmaxwidth">
+               <ui-select ng-model="patientFilters.Procedure" theme="bootstrap">
+            <ui-select-match placeholder="Primary Procedure">{{$select.selected.PROC}}</ui-select-match>
+            <ui-select-choices refresh="refreshcategory($select.search)" repeat="item in patientFiltersProce | filter: $select.search">
+              <div ng-bind-html="item.PROC | highlight: $select.search"></div>
+              
+            </ui-select-choices>
+          </ui-select>
+        </div>
+
+
+                <div class="col-sm-3 minmaxwidth">
+                
+                    <input class="form-control " placeholder="Pin" ng-model="patientFilters.pin">
+                  </div>
+                  <div class="col-sm-3 minmaxwidth">
+                
+                    <input class="form-control " placeholder="NPI" ng-model="patientFilters.npi">
+                  </div>
+
+                   <div class="col-sm-3 minmaxwidth">
+               <ui-select ng-model="patientFilters.selectProcedure" theme="bootstrap">
+            <ui-select-match placeholder="Primary Procedure">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices refresh="refreshproce($select.search)" repeat="item in selectProc | filter: $select.search">
+              <div ng-bind-html="item.name | highlight: $select.search"></div>
+              
+            </ui-select-choices>
+          </ui-select>
+        </div>
+                  
+           
+      </div>
+    </div>
+    <div class="row wrapper minmaxwrapper">
+      <div class="form-group">
+
+          <div class="col-sm-3">
+                  <button class="btn btn-md btn-info" type="button" ng-click="updateTableData(0)">Search</button>
+                  <button class="btn btn-md btn-warning" type="button" ng-click="clearSearch()">Clear</button>
+                </div>
+
+                <div class="col-sm-3 minmaxwidth">
+        <span class="alert alert-danger" ng-if="showerrorMsg">{{error_msg}}</span></div>
+      </div>
+    </div>
+        
+
+
+
+<!--  <div class="panel panel-default">
+    <div class="panel-heading">
+      PATIENT LIST
+    </div>
+-->
+
+  <div class="wrapper-sm table-responsive" ng-if="Listpatients.length>0">
+
+    <table class="table table-striped b-t b-light" datatable dt-options="dtOptions"> 
+            <thead>
+                <tr>
+                    <th>PIN</th>
+                    <th>created</th>
+                    <th>DOP</th>
+                    <th>Procedure</th>
+                    <th></th> 
+                    <th>NPI</th>
+                    <th></th>
+                    <th>Action</th>                    
+                </tr>
+            </thead>
+            <tbody>
+               
+                 <tr ng-repeat="Listpatient in Listpatients" id="removeId{{Listpatient.ID}}">
+                      <td>{{Listpatient.PIN}}</td>                      
+                      <td class="text-primary">{{Listpatient.created_on}}</td>
+                      <td class="text-primary">{{Listpatient.DOP}}</td>
+                      <td class="text-primary">{{Listpatient.PROC}}<td>
+                      <td class="text-primary">{{Listpatient.ISV_F}}<td>
+
+                      <td> 
+                        <button class="btn m-b-xs btn-sm btn-default" ng-click="editView(Listpatient.ID)" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-pencil text-success" ng-show="Listpatient.status>0"></i><i class="glyphicon glyphicon-pencil text-warning" ng-show="Listpatient.status<0"></i>
+                          <i class="glyphicon glyphicon-pencil " ng-show="Listpatient.status==0"></i></button>
+
+                        <button class="btn m-b-xs btn-sm btn-default" ng-click="editPatIntView(Listpatient.ID)" data-toggle="tooltip" title="Interview"><i ng-show="Listpatient.patient_int==1" class="glyphicon glyphicon-phone-alt text-success"></i><i ng-show="Listpatient.patient_int==0" class="glyphicon glyphicon-phone-alt text-danger"></i><i ng-show="Listpatient.patient_int==-1" class="glyphicon glyphicon-phone-alt text-warning"></i></button>
+
+                        <button class="btn m-b-xs btn-sm btn-default"ng-click="deleteView(Listpatient.ID,$index)" data-toggle="tooltip" title="Delete"><i class="glyphicon glyphicon-trash"></i></button>
+                        <button class="btn m-b-xs btn-sm btn-default" ng-click="printPatIntView(Listpatient.ID)" data-toggle="tooltip" title="Print"><i class="glyphicon glyphicon-print"></i></button>
+
+                      </td> 
+                </tr> 
+            </tbody>
+        </table> 
+
+      </div>
+      <div class=""  ng-show="Listpatients.length>0">
+        <div class="col-sm-6">{{showReocrd}}</div>
+        <div class="col-sm-6 text-right">
+            <pagination
+            ng-model="currentPage"
+            total-items="lenfgth"
+            max-size="maxSize"
+            boundary-links="true">
+          </pagination></div></div>
+
+             <div class="row wrapper" >
+              <div class="col-sm-3"></div>
+                <div class="text-center">
+            <div class="col-sm-6">
+                  <div class="text-center" >
+                    <i class="fa fa-refresh fa-spin" style="font-size:24px" ng-if="loderStatus"></i>
+              <alert  ng-hide="errortype" type="warning" close="closeAlert()" ng-if="Listpatients.length<=0 && loderStatus==0">
+        Sorry, No record found !!!</alert>
+              </div>
+            </div>
+          </div>
+        <div class="row wrapper">
+           <div class="col-sm-6 hidden-xs">
+                  <a ui-sref="ctApp.elements" class="btn m-b-xs btn-sm btn-success btn-addon"><i class="fa fa-plus"></i>Add Patient</a>
+          </div>
+        </div>
+
+      </div>
+      <script type="text/javascript">
+
+      </script>

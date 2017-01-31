@@ -1,0 +1,101 @@
+<div class="bg-light lter b-b wrapper-md">
+  <h1 class="m-n font-thin h3">Center List</h1>
+</div>
+<div class="wrapper-md">
+
+<div class="panel panel-default">
+    <div class="panel-body">
+    <span class="text-default h5">
+      Click on Add Center to create a new center and a user login. To edit the details for a center, click the edit icon next to the center name.<br/></span>
+    </div>
+</div>
+
+
+  <div class="panel panel-default">
+    <!--<div class="panel-heading">
+      SOIX CENTERS LISTING
+    </div>-->
+    <div class="row wrapper">
+
+      <div class="col-sm-2 m-b-xs">
+        <a ui-sref="ctApp.addCenter" class="btn m-b-xs btn-sm btn-success btn-addon"><i class="fa fa-plus"></i>Add Center</a>
+      </div>
+   <div class="line line-dashed b-b line-lg pull-in"></div>
+      
+      <div class="col-sm-12 m-b-xs">
+      <div class="btn-group btn-group-justified">
+          <a href class="btn btn-info inactiveclr active" id="thisMOnth" ng-click="thisMOnth()">This Month</a>
+          <a href class="btn btn-info inactiveclr"  id="lastmonth"ng-click="lastmonth()">Last Month</a>
+          <a href class="btn btn-info inactiveclr active " id="lastQuarter" ng-click="lastQuarter()">Last Quarter</a>
+          <a href class="btn btn-info inactiveclr" id="lastsixMonth" ng-click="lastsixMonth()">Last 6 months</a>
+          <a href class="btn btn-info inactiveclr active" id="lastYear" ng-click="lastYear()">Last Year</a>
+      </div>
+    </div>
+    <div class="col-sm-12 m-b-xs">
+      <label class="col-sm-6 m-b-xs" >  Selected Date-Range : <b >{{monthduration}}</b></label> 
+      <div class="col-sm-6 m-b-xs">      
+          <ui-select ng-model="centesta.status_center" theme="bootstrap" id="procdate" ng-change="chagestatus()">
+            <ui-select-match placeholder="Select">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices  repeat="item in Censtatus | filter: $select.search">
+              <div ng-bind-html="item.name | highlight: $select.search"></div>
+              
+            </ui-select-choices>
+          </ui-select>
+    </div>
+    </div>
+       
+    </div>
+   
+   
+    
+<div class="wrapper-sm table-responsive" ng-if="Listcenters.length>0">
+    <table class="table table-striped b-t b-light" datatable dt-options="dtOptions" id="centertable"> 
+            <thead>
+                <tr>
+       <th>Center</th>
+       <!--<th>User Code</th>-->
+       <th>Med. Rec.</th>
+       <th>Med. Rec. Draft</th>
+       <th>Pat. Int.</th>
+       <th>Pat. Int. Draft</th>
+       <!--<th>Interview</th>-->
+       <th>Status</th>
+       <th>Action</th>
+       </tr>
+            </thead>
+            <tbody>
+              
+        <tr ng-repeat="centers in Listcenters" id='removecenter{{centers.ID}}'>
+        <!--<td>{{$index + 1}}</td>-->
+        <td>{{centers.IDNNAME}} ({{centers.IDN3 | uppercase}})</td>
+        <td>{{centers.medRecodsTotal}}</td>
+        <td>{{centers.meddrafts}}</td>
+        <td>{{centers.patntTotal}}</td>
+        <td>{{centers.patntdrafts}}</td>
+        <!--<td>{{centers.PATINT}}</td>-->
+        <td id="statxt{{centers.ID}}"><a  class="text-success" ng-if="centers.status==1" >Active<!-- ng-click="statusActiveIn(centers.status,centers.ID,'Active')"--> </a><a  ng-if="centers.status==0"  class="text-danger">Inactive</a><!-- ng-click="statusActiveIn(centers.status,centers.ID,'InActive')"--></td>
+
+        <td><div class="btn-group">
+                <button type="button" class="btn btn-default btn" ng-click="editCenters(centers.IDN3);" data-toggle="tooltip" title="Patients"><i class="glyphicon glyphicon-user"></i></button>  
+                <button type="button" class="btn btn-default btn" ng-click="editView(centers.ID)" data-toggle="tooltip" title="Edit"><i class="glyphicon glyphicon-pencil" ></i></button>  
+                <button type="button" class="btn btn-default btn" ng-click="deleteView(centers.ID,$index,centers.IDN3);" data-toggle="tooltip" title="Delete"><i class="glyphicon glyphicon-trash"></i></button> 
+                <button type="button" class="btn btn-default btn" ng-click="dashBoard(centers.IDN3);" data-toggle="tooltip" title="Dashboard"><i class="glyphicon glyphicon-dashboard"></i></button> 
+                </div></td>
+      </tr>
+            </tbody>
+        </table> 
+      </div>
+    
+    <div class="row wrapper" >
+      <div class="col-sm-3"></div>
+       <div class="col-sm-6">
+          <div class="text-center" >
+            <i class="fa fa-refresh fa-spin" style="font-size:24px" ng-if="loderStatus"></i>
+      <alert  ng-hide="errortype" type="warning" close="closeAlert()" ng-if="Listcenters.length==0 && loderStatus==0">
+Sorry, no records found !!!</alert>
+    </div>
+  </div>
+</div>
+
+  </div>
+</div>

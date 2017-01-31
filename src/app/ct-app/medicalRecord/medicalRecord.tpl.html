@@ -1,0 +1,836 @@
+<div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3">{{centerName | uppercase}} ({{IDN3 | uppercase}})</h1>
+</div>
+<div class="wrapper-md">
+    <!-- ng-controller="FormDemoCtrl" -->
+
+    <div class="panel panel-default">
+        <div class="panel-heading font-bold">
+            Medical Record Input Form
+        </div>
+        <div class="panel-body">
+            <span class="text-default h5">
+      <p>Please complete medical record. Records with a Date of Service (procedure date) older than 3 months will be deleted by SOIX.</p>
+      <p>For any questions or assistance please contact 877-602-0156 ext. 2.</p></span> <span class="text-danger h5"><p>Required fields are shown in red.</p></span>
+        </div>
+    </div>
+
+    <form class="form-horizontal form-validation form-horizontal location ng-scope ng-valid-pattern ng-valid-required ng-dirty ng-valid-mask ng-valid ng-valid-parse " method="get" name="personal" ng-submit="personal.$valid && saveMedical(0)" novalidate id="print_Medicalform">
+
+        
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                1. PERSONAL INFORMATION
+            </div>
+            <div class="panel-body">
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label text-danger">PIN</label>
+                    <div class="col-sm-10" ng-class="{'has-error': personal.pin.$error.required && personal.pin.$invalid && !personal.pin.$dirty && submit}">
+                        <input type="text" name="pin" class="form-control" placeholder="Enter an identifier" ng-model="medicalRecord.PIN" ng-pattern="/^[a-zA-Z\d\s\-\.:]*$/" required>
+                        <!-- ng-blur ="checkpinNumber()" -->
+                        
+                        <span class="help-block m-b-none">A unique identifier (ie. a name or number)</span>
+
+                    </div>
+                </div>
+
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Phone Number</label>
+                    <div class="col-sm-10">
+                        <input type="text" id="phonenumber" name="phonenumber" class="form-control" ui-mask="(999)-999-9999" ui-mask-placeholder ng-model="medicalRecord.phone">
+                    </div>
+                </div>
+
+
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label text-danger">Select Gender</label>
+                    <div class="col-sm-10" ng-class="{'has-error': personal.sex.$error.required && personal.sex.$invalid && !personal.sex.$dirty && submit}">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="sex" value="M" ng-model="medicalRecord.SEX" required><i></i> Male
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="sex" value="F" ng-model="medicalRecord.SEX" required> <i></i> Female
+            </label>
+                        <span class="spanerror" ng-show="personal.sex.$error.required && submit == true">  </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label text-danger">Enter Age</label>
+                    <div class="col-sm-10" ng-class="{'has-error': personal.age.$error.required && personal.age.$invalid && !personal.age.$dirty && submit}">
+
+                        <!--<input type="text"  ng-pattern="/^[0-9]{1,3}$/" class="form-control" placeholder="Current Age" ng-model="medicalRecord.AGE" name="age" required> -->
+                        <div class="col-sm-3">
+                        <input type="text" id="age" name="age" ng-change="agecall(medicalRecord.AGE)"  class="form-control" ui-mask="9?9" ui-mask-placeholder ng-model="medicalRecord.AGE" required>
+                        <span class="help-block m-b-none">For infants enter 00</span>
+                        </div>
+                        <div class="col-sm-8">
+                        <span class="col-sm-4 padder-v col-sm-push-1">Or Enter Year of Brith</span>
+                        <span class="col-sm-3">
+                        <input type="text" id="year" name="year" class="form-control" ui-mask="9999" ng-change="yearcall(ageyear)" ui-mask-placeholder ng-model="ageyear" ></span>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label text-danger">Date of Service</label>
+                    <div class="col-sm-10" ng-controller="DatepickerDemoCtrl">
+                        <div class="input-group w-md" ng-class="{'has-error': personal.dop.$error.required && personal.dop.$invalid && !personal.dop.$dirty && submit}">
+                            <input type="text" name="dop" class="form-control" datepicker-popup="{{format}}" ng-model="medicalRecord.DOP" is-open="opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" ng-change="calculateAge()" placeholder="Select an DOP" min-date="mindate" max-date="maxdate" is-open="showdp" required readonly/>
+                            <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+
+                        </div>
+                        <span class="mantory" ng-show="!personal.dop.$dirty && submit "> </span>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                2. PROCEDURE INFORMATION
+            </div>
+            <div class="panel-body">
+                <span class="text-primary h5">You can enter the description of the procedure. The dropdown list will auto-populate as you type a procedure group.</span>
+
+
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label font-bold text-danger">Primary Procedure </label>
+                    <!-- personal.cptcode.$error.required && personal.cptcode.$invalid && !personal.cptcode.$dirty-->
+                    <div class="col-sm-10" ng-class="{'has-error': !medicalRecord.PROC  && submit || PrimaryProcedure=='1'}">
+
+                        <!--<input type="text" name="cptcode" class="form-control" placeholder="Primary" ng-model="medicalRecord.CPT" required>
+            <span class="spanerror" ng-show="!personal.cptcode.$dirty  && submit" > </span>
+          
+        -->
+
+                        <ui-select ng-model="medicalRecord.PROC" theme="bootstrap" name="primary" required>
+                            <ui-select-match placeholder="Select Procedure">{{$select.selected.CODE}}</ui-select-match>
+                            <ui-select-choices refresh="refreshcategory($select.search)" repeat="item in cptCodes | filter: $select.search">
+                                <div ng-bind-html="item.CODE | highlight: $select.search | sanitize"></div>
+
+                            </ui-select-choices>
+                        </ui-select>
+                        <span class="help-block m-b-none text-danger" ng-if="medicalRecord.PROC['DESCRIPTION']=='No Benchmark'">{{medicalRecord.PROC['DESCRIPTION']}}<span> (This record will not be used in the reports)</span>
+                    </span>
+                     <span class="help-block m-b-none" ng-if="medicalRecord.PROC['DESCRIPTION']!='No Benchmark'">{{medicalRecord.PROC['DESCRIPTION']}}
+                    </span>
+                    </div>
+
+                </div>
+                
+                   
+                    <!--<div class="col-sm-2">
+            <p class="form-control-static"><span ng-if="medicalRecord.PROC.BENCHMARK=='Y'" class="badge bg-success badge-sm m-l-xs">BENCHMARK</span></p>
+          </div>-->
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">Secondary Procedures</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" ng-model="medicalRecord.proc_desc">
+                        <span class="help-block m-b-none">Enter any additional details, like CPT codes.</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                3. PHYSICIAN NPI
+            </div>
+            <div class="panel-body">                                                                                                                                                                             <div class="form-group">
+                    <label class="col-sm-2 control-label font-bold">Physician NPI</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" placeholder="Enter NPI number" ng-model="medicalRecord.ISV_F">
+                        <span class="help-block m-b-none"><a class="text-info" href="http://www.npinumberlookup.org" target="_blank">look-up NPI</a></span>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                4. ANESTHESIA
+
+                <span class="mantory" ng-show="personal.anesthesia.$error.required && submit == true || personal.asaclass.$error.required && submit == true">  </span>
+            </div>
+            <div class="panel-body">
+
+
+                <div class="form-group" ng-class="{'has-error': !medicalRecord.ANESTHESIA  && submit}">
+                    <label class="col-sm-2 control-label text-danger">Anesthesia</label>
+                    <div class="col-sm-10">
+                        <ui-select ng-model="medicalRecord.ANESTHESIA" theme="bootstrap" name="anesthesia" required>
+                            <ui-select-match placeholder="Select Anesthesia">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices refresh="refreshcategory($select.search)" repeat="item in names3 | filter: $select.search">
+                                <div ng-bind-html="item | highlight: $select.search"></div>
+
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+                <!--ASACODE-->
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">ASA Classification</label>
+                    <div class="col-sm-10">
+                        <ui-select ng-model="medicalRecord.ASACODE" theme="bootstrap">
+                            <ui-select-match placeholder="Select ASA Classification">{{$select.selected}}</ui-select-match>
+                            <ui-select-choices refresh="refreshcategory($select.search)" repeat="item in names2 | filter: $select.search">
+                                <div ng-bind-html="item | highlight: $select.search"></div>
+
+                            </ui-select-choices>
+                        </ui-select>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">5. PROCEDURE TIMING
+            </div>
+
+
+            <div class="panel-body">
+                <span class="text-primary h5">Use 24 hour military time format. (i.e. 1:15 AM as 01:15, 2:30 PM as 14:30)</span>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">OR In</label>
+
+                        <div class="col-sm-4">
+                            <input ng-blur="ORin(medicalRecord.ORIN,medicalRecord.ORIN,1,'PSTART')" type="text" ng-keyup="onKeyUp(medicalRecord.ORIN,'hourorin',6)" id="hourorin" name="procedureorin" class="form-control" ui-mask="99:99" ui-mask-placeholder ng-model="medicalRecord.ORIN">
+                            <span class="spanerror" ng-show="!personal.procedureorin.$dirty  && submit"> </span>
+                        </div>
+
+                        <label ng-show="medicalRecord.ORIN!==''" class="col-sm-4 control-label text-default">{{medicalRecord.ORIN | twelehours}}</label>
+
+                    </div>
+                    <!-- ng-pattern= "/^([0-9]+)?\:([0-5][0-9])\:?([0-9]{3})?$/" -->
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label text-danger">Procedure Start</label>
+                        <div class="col-sm-4" ng-class="{'has-error': personal.procedureorstart.$error.required && personal.procedureorstart.$invalid && !personal.procedureorstart.$dirty && submit}">
+                            <input type="text" id="PSTART" name="procedureorstart" class="form-control" ng-model="medicalRecord.PSTART" ng-keyup="onKeyUp(medicalRecord.PSTART,'PSTART',2)" ng-blur="PSTART(medicalRecord.ORIN,medicalRecord.PSTART,1,'PSTART')" ui-mask="99:99" ui-mask-placeholder required>
+                            <span class="spanerror" ng-show="!personal.procedureorstart.$dirty  && submit"> </span>
+                        </div>
+                        <label ng-show="medicalRecord.PSTART!==''" class="col-sm-4 control-label text-default">{{medicalRecord.PSTART | twelehours}}</label>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label text-danger">Procedure End</label>
+                        <div class="col-sm-4" ng-class="{'has-error': personal.The_Procedure_End_Time.$error.required && personal.The_Procedure_End_Time.$invalid && !personal.The_Procedure_End_Time.$dirty && submit}">
+                            <input type="text" ng-keyup="onKeyUp(medicalRecord.PEND,'PEND',3)" id="PEND" name="The_Procedure_End_Time" class="form-control" ng-model="medicalRecord.PEND" ng-blur="PEND(medicalRecord.PSTART,medicalRecord.PEND,2,'PEND')" ui-mask="99:99" ui-mask-placeholder required>
+
+                            <span class="spanerror" ng-show="!personal.The_Procedure_End_Time.$dirty  && submit"> </span>
+                        </div>
+                        <label ng-show="medicalRecord.PEND!==''" class="col-sm-4 control-label text-default">{{medicalRecord.PEND | twelehours}}</label>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label ">OR Out </label>
+                        <div class="col-sm-4">
+                            <input type="text" id="OROUT" ng-keyup="onKeyUp(medicalRecord.OROUT,'OROUT',6)" ui-mask="99:99" ui-mask-placeholder name="procedureororout" class="form-control" ng-model="medicalRecord.OROUT" ng-blur="OROUT(medicalRecord.PEND,medicalRecord.OROUT,3,'OROUT')">
+                            <!-- -->
+                            <span class="spanerror" ng-show="!personal.procedureororout.$dirty  && submit"> </span>
+                        </div>
+                        <label ng-show="medicalRecord.OROUT!==''" class="col-sm-4 control-label text-default">{{medicalRecord.OROUT | twelehours}}</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label text-danger">Discharge Time</label>
+                        <div class="col-sm-4" ng-class="{'has-error': personal.discharge.$error.required && personal.discharge.$invalid && !personal.discharge.$dirty && submit }">
+                            <input type="text" ng-keyup="onKeyUp(medicalRecord.RECOV5,'RECOV5',5)" id="RECOV5" ui-mask="99:99" ui-mask-placeholder name="discharge" class="form-control" ng-model="medicalRecord.RECOV5" required ng-blur="RECOV5(medicalRecord.PEND,medicalRecord.RECOV5,4,'RECOV5')">
+                            <!--<span class="mantory"> </span>-->
+
+                            <span class="spanerror" ng-show="!personal.discharge.$dirty && submit">  </span>
+                        </div>
+                        <label ng-show="medicalRecord.RECOV5!==''" class="col-sm-4 control-label text-default">{{medicalRecord.RECOV5 | twelehours}}</label>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Optional Time 1</label>
+                        <div class="col-sm-4">
+                            <input type="text" ng-keyup="onKeyUp(medicalRecord.RECOV1,'RECOV1',6)" id="RECOV1" ng-blur="opt1(medicalRecord.PEND,medicalRecord.RECOV1,4,'RECOV1')" ui-mask="99:99" ui-mask-placeholder name="recoveryoption1" class="form-control" ng-model="medicalRecord.RECOV1 ">
+
+
+                            <span class="spanerror" ng-show="!personal.recoveryoption1.$dirty  && submit"> </span>
+                        </div>
+                        <label ng-show="medicalRecord.RECOV1!==''" class="col-sm-4 control-label text-default">{{medicalRecord.RECOV1 | twelehours}}</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Optional Time 2</label>
+                        <div class="col-sm-4">
+
+                            <input type="text" ng-blur="opt2(medicalRecord.PEND,medicalRecord.RECOV2,4,'RECOV2')" ng-keyup="onKeyUp(medicalRecord.RECOV2,'RECOV2',6)" id="RECOV2" ui-mask="99:99" ui-mask-placeholder name="recoveryoption2" class="form-control" ng-model="medicalRecord.RECOV2">
+
+                            <span class="spanerror" ng-show="!personal.recoveryoption2.$dirty  && submit"> </span>
+                        </div>
+                        <label ng-show="medicalRecord.RECOV2!==''" class="col-sm-4 control-label text-default">{{medicalRecord.RECOV2 | twelehours}}</label>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">Optional Time 3</label>
+                        <div class="col-sm-4">
+                            <input type="text" ng-blur="opt3(medicalRecord.PEND,medicalRecord.RECOV3,4,'RECOV3')" ui-mask="99:99" ng-keyup="onKeyUp(medicalRecord.RECOV3,'RECOV3',6)" id="RECOV3" ui-mask-placeholder name="recoveryoption3" class="form-control" ng-model="medicalRecord.RECOV3">
+
+                            <span class="spanerror" ng-show="!personal.recoveryoption3.$dirty  && submit"> </span>
+                        </div>
+                        <label ng-show="medicalRecord.RECOV3!==''" class="col-sm-4 control-label text-default">{{medicalRecord.RECOV3 | twelehours}}</label>
+                    </div>
+
+                </div>
+
+                <div class="col-sm-6">
+
+                    <div class="padder-md">
+                        <!-- streamline -->
+
+                        <div class="streamline b-l m-b">
+
+                            <div class="sl-item b-success b-l">
+                                <div class="m-l">
+                                    <div class="text-muted">Total OR Time</div>
+
+                                    <p><a href class="text-info">{{medicalRecord | hourmints:'ORIN,OROUT'}} </a></p>
+                                </div>
+                            </div>
+
+                            <div class="sl-item b-primary b-l">
+                                <div class="m-l">
+                                    <div class="text-muted">Total Procedure Time</div>
+                                    <p><a href class="text-info"> {{medicalRecord | hourmints:'PSTART,PEND'}}</a></p>
+                                </div>
+                            </div>
+
+                            <div class="sl-item b-primary b-l">
+                                <div class="m-l">
+                                    <div class="text-muted">Total Recovery Time</div>
+                                    <p><a href class="text-info"> {{medicalRecord | hourmints:'PEND,RECOV5'}}</a></p>
+                                </div>
+                            </div>
+
+                            <!-- <div class="sl-item b-primary b-l">
+          <div class="m-l">
+            <div class="text-muted">Total Time</div>
+            <p><a href class="text-info">{{medicalRecord | totalhourmints:'ORIN,OROUT,PSTART,PEND,PEND,RECOV5'}} </a></p>
+          </div>
+        </div>-->
+
+                        </div>
+                        <!-- / streamline -->
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                6. IV PROPHYLACTIC ANTIBIOTIC
+            </div>
+            <div class="panel-body">
+
+                <span class="text-primary h5">Select the antibiotic that was administered. Enter the time that the initial dose was given to the patient.</span>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label ">Antibiotic</label>
+
+                    <div class="col-sm-6">
+                        <!--ng-class="{'has-error': !medicalRecord.AntibioNam && submit}"-->
+
+                        <!--<ui-select multiple ng-model="medicalRecord.AntibioNam"   > 
+            <ui-select-match placeholder="Select Antibiotic...">{{$item.name}}</ui-select-match>
+            <ui-select-choices repeat="person in Antibiotic | propsFilter: {name: $select.search}">
+              <div ng-bind-html="person.name | highlight: $select.search"></div>
+             
+            </ui-select-choices>
+          </ui-select>-->
+
+                        <ui-select ng-model="medicalRecord.AntibioNam" theme="bootstrap">
+                            <ui-select-match placeholder="Select Antibiotic...">{{$select.selected.name}}</ui-select-match>
+                            <ui-select-choices refresh="refreshAntibioNam($select.search)" repeat="item in Antibiotic | filter: $select.search">
+                                <div ng-bind-html="item.name | highlight: $select.search"></div>
+
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label ">Time of Inital dose</label>
+
+                    <div class="col-sm-4" ng-class="{'has-error':AntibioTimtrue=='1' &&  !personal.initialdose.$dirty && submit || AntibioTimtrue=='true'}">
+                        <input type="text" id="AntibioTim" ng-show="antibi=='1'" ui-mask="99:99" ui-mask-placeholder name="initialdose" class="form-control AntibioTimm" ng-keyup="onKeyUp(medicalRecord.AntibioTim,'AntibioTim')" ng-model="medicalRecord.AntibioTim" ng-blur="AntibioTim(medicalRecord.OROUT,medicalRecord.AntibioTim,4,'AntibioTim')">
+                        <!-- ng-blur ="AntibioTim(medicalRecord.OROUT,medicalRecord.AntibioTim,4,'AntibioTim')" -->
+
+
+
+                        <input type="text" id="AntibioTim" ng-show="antibi=='0'" ui-mask="99:99" ui-mask-placeholder name="initialdose" class="form-control AntibioTimm" ng-keyup="onKeyUp(medicalRecord.AntibioTim,'AntibioTim')" value="00:00" ng-model="medicalRecord.AntibioTim" ng-blur="AntibioTim(medicalRecord.OROUT,medicalRecord.AntibioTim,4,'AntibioTim')">
+                        <!-- ng-blur ="AntibioTim(medicalRecord.OROUT,medicalRecord.AntibioTim,4,'AntibioTim')" -->
+
+                        <span class="spanerror" ng-show="!personal.initialdose.$dirty && submit">  </span>
+                        <span class="help-block m-b-none">Enter time (hh:mm)</span>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                <label class="text-danger"><b>   7. PATIENT'S DISPOSITION</b></label>
+                <span class="mantory" ng-show="personal.pationDispostion.$error.required && submit == true"> </span>
+            </div>
+            <div class="panel-body">
+
+
+
+                <div class="form-group" ng-class="{'has-error': personal.pationDispostion.$error.required && submit == true }">
+                    <div class="col-sm-12">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="pationDispostion" value="4"   ng-model="medicalRecord.DISPOSITIO " required><i></i> Normal discharge
+            </label>
+                    <label class="checkbox-inline i-checks">
+              <input type="radio" name="pationDispostion" value="3" ng-click="dispostin_popup()" ng-model="medicalRecord.DISPOSITIO " required><i></i> Unplanned hospital admission
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="pationDispostion" value="2" ng-click="dispostin_popup()" ng-model="medicalRecord.DISPOSITIO " required><i></i> Returned to surgery
+            </label>
+                
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="pationDispostion" value="1" ng-click="dispostin_popup()" ng-model="medicalRecord.DISPOSITIO " required><i></i> Returned to surgery and unplanned hospital admission
+            </label>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                8. POST-OPERATIVE PROBLEMS
+            </div>
+            <div class="panel-body">
+                <span class="text-primary h5">Problems resulting in prolonged recovery, return to surgery, or unplanned admission. Please select all that applies.</span>
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+
+
+
+                <div class="form-group">
+
+                    <div class="col-sm-4">
+
+                        <div class="checkbox">
+                            <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model="medicalRecord.NAUS1" >
+                <i></i>
+                Nausea
+              </label>
+                        </div>
+
+
+                        <div class="checkbox">
+                            <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model="medicalRecord.INVOID1" >
+                <i></i>
+                Inability to void
+              </label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model="medicalRecord.CATHETER" >
+                <i></i>
+                Catheterized?
+              </label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model="medicalRecord.BLEED1" >
+                <i></i>
+                Hemorrhage, bleeding
+              </label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model="medicalRecord.VOM1" >
+                <i></i>
+                Vomiting
+              </label>
+                        </div>
+                        
+
+                
+                    
+
+        
+                    </div>
+
+
+                    <div class="col-sm-8">
+                        <div class="checkbox">
+                            <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model="medicalRecord.LOC1" >
+                <i></i>
+                LOC changes/sleepy/can't ambulate
+              </label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model="medicalRecord.RESP1" >
+                <i></i>
+                Respiratory problems
+              </label>
+                        </div>
+
+                        <div class="checkbox">
+                            <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model="medicalRecord.PAIN1"  >
+                <i></i>
+                Pain
+              </label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model="medicalRecord.FALL" >
+                <i></i>
+                Patient fall
+              </label>
+                        </div>
+
+                        <!--<div class="checkbox">
+                            <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model="medicalRecord.IVS1" >
+                <i></i>
+                Instability of vital signs 
+              </label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model= "medicalRecord.PEMC1">
+                <i></i>
+                Pre-existing medical condition
+              </label>
+                        </div>-->
+                        <div class="checkbox">
+                            <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model="medicalRecord.BURN" >
+                <i></i>
+                Burn
+              </label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="i-checks">
+                <input type="checkbox" value="Y" ng-model="medicalRecord.WRONGPAT">
+                <i></i>
+                Wrong site/procedure/patient
+              </label>
+                    </div>
+                    <!--<div class="checkbox">
+                        <label class="i-checks">
+                            <input type="checkbox" value="Y" ng-model="medicalRecord.OTHER1" >
+                            <i></i> Other complications of surgery
+                        </label>
+                    </div>-->
+            
+            </div>
+
+                   
+        </div>
+                    <div class="form-group">
+                   <div class="col-sm-4">
+
+                        <div class="checkbox">
+                            <label class="i-checks">
+                        <input type="checkbox" value="Y" ng-model="medicalRecord.IVS1" >
+                        <i></i>
+                        Instability of vital signs
+                      </label>
+                        </div>
+                        <div class="checkbox">
+                           <label class="i-checks  control-label">
+                            <input type="checkbox" value="Y" ng-model= "medicalRecord.PEMC1">
+                            <i></i>
+                            Pre-existing medical condition</label>
+                        </div>
+                        <div class="checkbox">
+                            <label class="i-checks  control-label">
+                            <input type="checkbox" value="Y" ng-model="medicalRecord.OTHER1" >
+                            <i></i> Other complications of surgery
+                        </label>
+                        </div>
+                    </div>
+                    <div class="col-sm-8">
+                        
+                            
+                            
+                            <label class="checkbox">
+                            <input type="text" class="form-control " ng-model="medicalRecord.IN_VIT_COM">
+                            <i></i></label>
+                            <label class="checkbox">
+                            <input type="text" class="form-control" ng-model="medicalRecord.PRE_MED_CO">
+                            <i></i></label>
+                            <label class="checkbox">
+                            <input type="text" class="form-control " ng-model="medicalRecord.OTHER_COMM">
+                            <i></i></label>
+                        </div>
+                </div>
+            </div>
+                        
+
+            </div>        
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                9. POST-OP PAIN IN RECOVERY (PACU)
+                <!--<span class="mantory" ng-show="personal.PainVerbalized.$error.required && submit == true || personal.medo.$error.required && submit == true || personal.meda.$error.required && submit == true || personal.painr.$error.required && submit == true"> </span>-->
+
+            </div>
+            <div class="panel-body">
+
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label text-danger">Pain verbalized?</label>
+                    <div class="col-sm-10" ng-class="{'has-error': personal.PainVerbalized.$error.required && submit == true }">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="PainVerbalized" value="Y" ng-model="medicalRecord.PV1" required><i></i> Yes
+              </label>
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="PainVerbalized" value="N" ng-model="medicalRecord.PV1" required><i></i> No
+            </label>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-hide="medicalRecord.PV1=='N'">
+                    <label class="col-sm-2 control-label">Medication ordered?</label>
+                    <div class="col-sm-10">
+                        <!--ng-class="{'has-error': personal.medo.$error.required && submit == true }"-->
+                        <label class="checkbox-inline i-checks">
+              <input ng-disabled="medicalRecord.PV1=='N'" type="radio" name="medo" value="Y" ng-model="medicalRecord.MO1" ><i></i> Yes
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input ng-disabled="medicalRecord.PV1=='N'" type="radio" name="medo" value="N" ng-model="medicalRecord.MO1" ><i></i> No
+            </label>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-hide="medicalRecord.PV1=='N'">
+                    <label class="col-sm-2 control-label">Medication administered?</label>
+                    <div class="col-sm-10">
+                        <!-- ng-class="{'has-error': personal.meda.$error.required && submit == true }"-->
+                        <label class="checkbox-inline i-checks">
+              <input ng-disabled="medicalRecord.PV1=='N'" type="radio" name="meda" value="Y" ng-model="medicalRecord.MA1" ><i></i> Yes
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input ng-disabled="medicalRecord.PV1=='N'" type="radio" name="meda" value="N" ng-model="medicalRecord.MA1" > <i></i> No
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input ng-disabled="medicalRecord.PV1=='N'" type="radio" name="meda" value="Refused" ng-model="medicalRecord.MA1" ><i></i> Refused
+            </label>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-hide="medicalRecord.PV1=='N'">
+                    <label class="col-sm-2 control-label text-danger">Pain relieved?</label>
+                    <div class="col-sm-10" ng-class="{'has-error': PR1true=='1' && submit == true && medicalRecord.PV1=='Y'}">
+                        <label class="checkbox-inline i-checks">
+              <input ng-disabled="medicalRecord.PV1=='N'" type="radio" name="painr" value="Y" ng-model="medicalRecord.PR1" ><i></i> Yes
+            </label>
+                        <label class="checkbox-inline i-checks">
+              <input ng-disabled="medicalRecord.PV1=='N'" type="radio" name="painr" value="N" ng-model="medicalRecord.PR1" ><i></i> No
+            </label>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+        <div class="panel panel-info">
+            <div class="panel-heading font-bold">
+                10. OPTIONAL DATA FOR YOUR CENTER
+            </div>
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-sm-6">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">A</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" ng-model="medicalRecord.ISV_A">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">B</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" ng-model="medicalRecord.ISV_B">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">C</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" ng-model="medicalRecord.ISV_C">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-6">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">D</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" ng-model="medicalRecord.ISV_D">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">E</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" ng-model="medicalRecord.ISV_E">
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+       <!-- <div class="panel panel-success">
+            <div class="panel-heading font-bold">
+                11. PATIENT INTERVIEW FOLLOWUP <span class="mantory" ng-show="personal.PatientInterview.$error.required && submit == true "> </span>
+            </div>
+            <div class="panel-body">
+
+                <div class="form-group" ng-class="{'has-error': personal.PatientInterview.$error.required && submit == true }">
+                    <label class="col-sm-4 control-label text-danger">Will there be a patient interview?</label>
+                    <div class="col-sm-8">
+                        <label class="checkbox-inline i-checks">
+              <input type="radio" name="PatientInterview" value="1" ng-model="medicalRecord.patient_int" required><i></i> Yes
+            </label>
+
+               <label class="checkbox-inline i-checks" >
+              <input type="radio" name="PatientInterview"  value="0" ng-model="medicalRecord.patient_int" required><i></i> No
+            </label>
+
+                    </div>
+                </div>
+                 </div>
+        </div>-->
+                       <!-- <label class="checkbox-inline i-checks" ng-if="medicalRecord.patient_int=='0'">
+              <input type="radio" name="PatientInterview"  value="0" ng-model="medicalRecord.patient_int" required><i></i> No
+            </label>
+                        <label class="checkbox-inline i-checks" ng-if="medicalRecord.patient_int=='-1'">
+              <input type="radio" name="PatientInterview"  value="-1" ng-model="medicalRecord.patient_int" required><i></i> No
+            </label>
+                        <label class="checkbox-inline i-checks" ng-if="medicalRecord.patient_int=='1'">
+              <input type="radio" name="PatientInterview"  value="0" ng-model="medicalRecord.patient_int" required><i></i> No
+            </label>-->
+
+
+
+           
+
+
+
+        <div class="panel panel-success">
+
+            <div class="panel-body">
+                <!--<form method="get" >-->
+                <span class="text-primary h5">Once ALL required fields are completed click the SAVE button to submit this form.</span>
+
+                <div class="line line-dashed b-b line-lg pull-in"></div>
+                <div class="form-group">
+                    <div class="col-sm-6 col-sm-offset-2">
+                        
+                        <!-- ng-click="submit=true"-->
+                        <a type="submit" ng-click="savemedForm()" class="btn btn-primary" >Save Medical Record </a>
+                        <a class="btn btn-default" ng-click="draft()" ng-disabled="MedDefDisable=='1'">Save as Draft </a>
+                        <a type="submit" class="btn btn-default" ng-click="cancel()">Cancel</a>
+                        
+
+                        <a ng-click="patientInerview()" ng-show="patientinterviewEnable" class="btn btn-info">Go To Patient Interview</a>
+                        <span> <i class="btn fa fa-refresh fa-spin" ng-if ="loderStatus" style="font-size:24px"></i> </span>
+                    </div>
+                </div>
+
+                <div class="col-sm-10 col-sm-offset-2" ng-if="errortype">
+
+                    <alert type="{{alrttype}}" close="closeAlert()">{{msg}}</alert>
+
+                </div>
+
+                <div class="col-sm-10 col-sm-offset-2" ng-if="submit">
+
+                    <alert type="danger" close="closeAlert()" ng-if="ErrorFileds.length>0">ERROR: Missing the following required fields.
+                        <div class="text-nowrapNew" ng-repeat="x in ErrorFileds">{{$index+1}}. &nbsp;{{x}}</div>
+                        <div class="text-nowrapNew">{{ErrorFiledssubmit}}</div>
+                    </alert>
+                    <alert type="danger" close="closeAlert()" ng-if="submiterrorSubmit>0">ERROR: Missing the following required fields.
+                        <div class="text-nowrapNew">{{ErrorFiledssubmit}}</div>
+                    </alert>
+
+                    <span ng-if="personal.$invalid && submit" ng-show="anyDirtyAndInvalid()"></span>
+
+                </div>
+                <div class="col-sm-10 col-sm-offset-2" ng-if="drfterro>0 && !submit">
+                    <alert type="danger" close="closeAlert()">ERROR: Missing the following required fields.
+                        <div class="text-nowrapNew">{{ErrorFiledsdrft}}</div>
+                    </alert>
+                </div>
+            </div>
+
+            </div>
+        </form>
+
+</div>
+       
+    

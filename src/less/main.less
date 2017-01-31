@@ -1,0 +1,285 @@
+/**
+ * This is the main application stylesheet. It should include or import all
+ * stylesheets used throughout the application as this is the only stylesheet in
+ * the Grunt configuration that is automatically processed.
+ */
+
+/** 
+ *RAZA KING OF ANGULAR!
+*/
+
+
+/**
+ * First, we include the Twitter Bootstrap LESS files. Only the ones used in the
+ * project should be imported as the rest are just wasting space.
+ */
+
+@import '../../vendor/bootstrap/less/bootstrap.less';
+@import '../../vendor/components-font-awesome/less/font-awesome.less';
+/* @import '../../vendor/angular-ui-select/dist/select.min.css';
+@import '../../vendor/select2/select2.css';
+@import '../../vendor/select2/select2-bootstrap.css';
+@import '../../custom-vendors/wijmo-angular/Dist/styles/wijmo.min.css';
+@import '../../custom-vendors/angular/datePicker.css';
+@import '../../custom-vendors/fullcalendar.css'; *//*Coded by Revethy Style changed so we cant get valu for vendor */
+/*@import '../../vendor/mapbox.js/mapbox.css';*/
+
+@import 'simple-line-icons.less';
+@import 'font.less';
+@import 'animations.less';
+@import 'app.less';
+@import 'custom.less';
+
+
+/**
+ * This is our main variables file. We must include it last so we can overwrite any variable
+ * definitions in our imported stylesheets.
+ */
+
+@import 'variables.less';
+
+/**************************************
+Load Less
+**************************************/
+
+
+/**************************************
+Genral
+**************************************/
+
+.ct-nav-brand{
+  width:100%;
+  img {
+    
+    padding-right:3px;
+    margin-top: 14px;
+    vertical-align: initial;
+    float: left;
+  }
+  span{
+    float: left;
+    max-height: 45px;
+  }
+}
+.app-loader{
+  background: url("../assets/animate-loader.gif") no-repeat;
+  border: none;
+  width: 47px;
+  height: 18px;
+  float: left;
+}
+.fa-sort{
+  color:#ccc;
+}
+.fa-sort-down, .fa-sort-up{
+  color:#000;
+}
+.text-nowrapNew {
+ 	word-wrap: break-word;
+}
+
+.table-wrapper .table {
+  thead th{
+    border:1px solid #E4E4E4 !important;
+    &:first-child{
+      border-left:0px !important;
+    }
+    &:last-child{
+      border-right:0px !important;
+    }
+    &.sort-item{
+      .fa{
+        float: right;
+        padding-top: 3px;
+      }
+      background : #F2F3F4;
+      cursor:pointer;
+      &:hover{
+        background : #E7EDF2;
+        //commentl;
+      }
+    }
+  }
+}
+.select2 > .select2-choice.ui-select-match {
+  /* Because of the inclusion of Bootstrap */
+  height: 33px;
+  border-radius: 0px;
+}
+.select2-container .select2-choice .select2-arrow{
+  border-radius : 0px;
+}
+.padlr0{
+  padding-left:0px;
+  padding-right:0px;
+}
+/*.app-content-body{
+  clear:both;
+}*/
+/*
+html {
+    position: relative;
+    min-height: 100%;
+}
+*/
+
+/**
+ * Now that all app-wide styles have been applied, we can load the styles for
+ * all the submodules and components we are using.
+ *
+ * TODO: In a later version of this boilerplate, I'd like to automate this.
+ */
+
+/*@import '../app/access/access.less';*/
+
+
+/*@import '../app/utils/data-table/data-table.less';*/
+
+//@import 'buyer.less';
+
+/**************************************
+Coded By Revathy
+Get Scroll in Mapview
+**************************************/
+.jobsListClass
+{
+   max-height: 500px;
+    overflow-y: scroll;
+}
+.select2-container { /* overiding default height of select2 */
+  .select2-choice{
+    height: 32px !important;
+    padding : 2px 0 0 8px !important;
+  }
+}
+/**************************************
+Coded By Revathy
+Get wordbreak in job and authorization
+**************************************/
+.word-break
+{
+  word-break:break-all;
+}
+
+/**************************************
+Coded By Revathy
+Remove border in Timecard Export Report
+
+**************************************/
+
+.borderless td, .borderless th {
+    border: none !important;
+}
+.table.borderless
+{
+  margin-bottom:0px;
+}
+.schedule_error 
+{
+  max-height: 65px;
+  overflow: auto;
+}
+.logopaddingbottom
+{
+  margin-bottom:10px;
+}
+/**************************************
+Coded By Revathy
+All employee text color in SCHEDULING
+
+**************************************/
+.text-black
+{
+   color: #000000;
+}
+.input_file
+{
+  display: none !important
+}
+.paddingleft
+{
+  padding-left: 137px;
+}
+.upload-btn
+{
+  height: 34px;
+}
+.laderPading{
+  padding: 6px;
+}
+.text-red
+{
+  color: #FF0000;
+}
+
+/**************************************
+Coded By Revathy
+Notify bg color for heading
+**************************************/
+.notify .bg-danger .panel-heading
+{
+  background-color:#F05050;
+}
+.notify .bg-warning .panel-heading
+{
+  background-color:#FAD733;
+}
+.notify .bg-info .panel-heading
+{
+  background-color:#23B7E5;
+}
+.notify .panel-heading h4
+{
+  font-weight: 700;
+}
+.cursor_pointer
+{
+  cursor: pointer;
+}
+.fixedwith .modal-dialog{
+  /*max-height: 700px;
+  overflow-y: scroll;*/
+}
+.alertDashboardBox{
+  cursor: pointer;
+}
+.fixed_height { 
+  height : 300px;
+  overflow-y:scroll;
+}
+
+.wj-detail{
+  color: inherit !important;
+  overflow:inherit !important;
+}
+.custome_link{
+
+}
+.custome_link a{
+  font-size: 13px;
+}
+
+.bordernone{
+  border:none;
+  background:none;
+}
+
+@media (min-width: 320px) and (max-width: 736px){
+  
+  .minmaxwidth {
+    padding:5px
+  }
+  .minmaxwrapper{
+  padding-top: 0px;
+  padding-bottom: 0px;
+  }
+.navigtion{
+    background: black;
+    position: fixed;
+    width: 100%;
+    z-index: 10000;
+    }
+}
+@media print{
+      @import "assets/ngbp-0.3.2.css";
+  }

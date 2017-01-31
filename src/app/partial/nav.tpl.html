@@ -1,0 +1,80 @@
+<!-- list -->
+<ul class="nav" >
+  <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+    <span>Navigation</span>
+  </li>
+ 
+  <li ui-sref-active="active">
+    <a ui-sref="ctApp.dashboard" ng-click="toggleclass()">
+      <i class="glyphicon glyphicon-stats icon text-primary-dker" ></i>
+      <span>Dashboard</span>
+    </a>
+  </li>
+  <li ui-sref-active="active" restrict access="SuperAdmin">
+    <a ui-sref="ctApp.ui_grid" ng-click="toggleclass()">
+      <i class="glyphicon glyphicon-list"></i>
+      <span>Center List</span>
+    </a>
+  </li>
+  <li ui-sref-active="active">
+    <a ui-sref="ctApp.tablestatic" ng-click="toggleclass()">
+      <i class="glyphicon glyphicon-list"></i>
+      <span>Patient List</span>
+    </a>
+  </li>
+  <li ui-sref-active="active" restrict access="SuperAdmin">
+    <a ui-sref="ctApp.ProcedureGroups" ng-click="toggleclass()">
+      <i class="glyphicon glyphicon-list"></i>
+      <span>Case Distribution</span>
+    </a>
+  </li>
+  <li ui-sref-active="active" >
+    <a  href="{{landingUrl}}" target="_blank"  ng-init="byePassLogin()">
+      <i class="glyphicon glyphicon-list"></i>
+      <span>Login to Reports</span>
+    </a>
+  </li>
+
+  <li ui-sref-active="active" >
+    <a  href="http://soix.us/complete-member-surveys-new-draft/" target="_blank" >
+      <i class="glyphicon glyphicon-list"></i>
+      <span>Center Level Surveys</span>
+    </a>
+  </li>
+
+  <li ui-sref-active="active" >
+    <a  href="https://soixapps.com/downloadPdf/SOIX_BenchmarkingProcedures_2017.pdf" target="_blank" download="2016SOIXBenchmarkedProcGrps">
+      <i class="glyphicon glyphicon-list" ></i>
+      <span>Benchmarked <span class="proceudre">Procedure Groups (PDF)</span></span>
+    </a>
+  </li>
+    <li ui-sref-active="active" ng-if="file_format>1">
+    <a ui-sref="ctApp.uploaddata" ng-click="toggleclass()">
+      <i class="glyphicon glyphicon-list"></i>
+      <span>Upload Data</span>
+    </a>
+  </li>
+  <!--<li ui-sref-active="active" >
+    <a  href="https://reports.soix.com:8443/genrep/PROCEDURE_GROUPS_2015.pdf" target="_blank" >
+      <i class="glyphicon glyphicon-list"></i>
+      <span>Benchmarked <span class="proceudre">Procedure Groups (PDF)</span></span>
+    </a>
+  </li> -->
+
+
+  <!--<li ui-sref-active="active">
+    <a ui-sref="ctApp.elements">
+      <i class="glyphicon glyphicon-edit"></i>
+      <span>Medical Record</span>
+    </a>
+  </li>
+
+  <li ui-sref-active="active">
+    <a ui-sref="ctApp.fileupload">
+      <i class="glyphicon glyphicon-edit"></i>
+      <span>Patient Interview</span>
+    </a>
+  </li>-->
+
+</ul>
+<!-- / list -->
